@@ -1,2 +1,42 @@
 node_modules
 site/node_modules
+
+# Logs
+/packages/site/logs
+/packages/site/*.log
+/packages/site/npm-debug.log*
+/packages/site/yarn-debug.log*
+/packages/site/yarn-error.log*
+/packages/site/pnpm-debug.log*
+/packages/site/lerna-debug.log*
+
+/packages/site/node_modules
+/packages/site/dist
+/packages/site/dist-ssr
+/packages/site/*.local
+
+# Editor directories and files
+/packages/site/.vscode/*
+/packages/site/!.vscode/extensions.json
+/packages/site/.idea
+/packages/site/.DS_Store
+/packages/site/*.suo
+/packages/site/*.ntvs*
+/packages/site/*.njsproj
+/packages/site/*.sln
+/packages/site/*.sw?
+
+node_modules
+.env
+
+# Hardhat files
+/cache
+/artifacts
+
+# TypeChain files
+/typechain
+/typechain-types
+
+# solidity-coverage files
+/coverage
+/coverage.json
