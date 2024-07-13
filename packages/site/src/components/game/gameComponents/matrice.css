@@ -1,0 +1,33 @@
+#matrix {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    flex-direction: column;
+}
+.row {
+    display: flex;
+}
+.card {
+    width: 80px;
+    height: 80px;
+    border: 1px solid black;
+}
+#hand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+#hand .card {
+    cursor: pointer;
+}
+#hand .card:hover {
+    transform: scale(1.1);
+}
+#container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
