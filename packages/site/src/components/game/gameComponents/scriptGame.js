@@ -1,4 +1,4 @@
-export function game() {
+function game() {
     
 
     fillHand();
