@@ -1,0 +1,117 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif; /* Consistent font choice */
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f4f4f4; 
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.App {
+  text-align: center;
+  width: 80%;
+  max-width: 1200px; 
+  margin: 20px auto; 
+}
+
+h1, h2 {
+  color: #333;
+}
+
+
+.players {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.player {
+  width: 200px;
+}
+
+.hand {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+
+#matrix {
+  display: grid; 
+  grid-template-columns: repeat(5, 80px); 
+  grid-template-rows: repeat(5, 80px);
+  
+  
+  padding: 10px; 
+}
+
+.card {
+  width: 80px; 
+  height: 80px;
+  border: 1px solid black;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s, transform 0.2s;
+  text-shadow: 1px 1px 2px black;
+}
+
+/* Card Colors and Hover Effects */
+.card:hover {
+  transform: scale(1.1);
+}
+
+/* Highlight center column (x3) */
+#matrix > .card:nth-child(3n) { 
+  background-color: gold;
+}
+
+
+#matrix > .card:nth-child(-n+5),  
+#matrix > .card:nth-child(n+21) {
+  background-color: lightgreen;
+}
+
+.multiplier-row {
+  background-color: lightgreen; /* Or a color of your choice */
+}
+.multiplier-column .card { /* Assuming your card element has the class "card" */
+  background-color: lightblue; /* Or another distinct color */
+} 
+
+
+.player1 .card { background: linear-gradient(45deg, #2196F3, #0D47A1); }
+.player2 .card { background: linear-gradient(45deg, #F44336, #B71C1C); }
+
+
+.card.selected { 
+  border: 2px solid #ff9800; 
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.5); 
+}
+
+
+.x3 { background-color: gold; }
+
+.x2 { background-color: lightgreen; }
+
+/* App.css */
+.multiplier-column {
+  background-color: #ffeb3b; /* Couleur jaune pour la colonne centrale */
+}
+
+.multiplier-row {
+  background-color: #c8e6c9; /* Couleur verte pour les lignes centrales */
+}
+
+
+
