@@ -9,6 +9,8 @@ const Game = () => {
   const navigate = useNavigate();
   const [player2Address, setPlayer2Address] = useState(null);
 
+  
+
   useEffect(() => {
     if (!isConnected) {
       navigate('/');

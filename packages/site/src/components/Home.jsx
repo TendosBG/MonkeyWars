@@ -1,9 +1,17 @@
 import React from 'react';
-import { useWallet } from '../context/WalletContext';
-import { useRoom } from '../context/RoomContext';
+import { useWallet } from '../context/WalletContext.jsx';
+import { useRoom } from '../context/RoomContext.jsx';
 import { Link } from 'react-router-dom';
+import { MonkeyWarsABI } from '../abi.ts';
+import {  useWriteContract } from 'wagmi';
+import { parseEther } from 'viem';
+
 
 const Home = () => {
+
+  const { writeContract, error} = useWriteContract()
+console.log(error)
+
   const { isConnected, address } = useWallet();
   const { rooms, deleteRoom } = useRoom(); // Assurez-vous d'importer la fonction de suppression de la salle depuis votre contexte RoomContext
 
@@ -17,14 +25,26 @@ const Home = () => {
     <div className="flex flex-col items-center gap-4">
       {isConnected ? (
         <>
-          <div className="text-2xl font-bold">Connected</div>
+          
           <div className="flex gap-4 items-center">
-            <Link to={`/game/${address}`} style={{ textDecoration: 'underline' }}>Create my room</Link>
+            <button
+              onClick={() =>
+                writeContract({
+                  address: '0xEa8F99779eEAd14d4575D91a2497Cfe5DDFb3b74',
+                  abi: MonkeyWarsABI,
+                  functionName: 'createGame',
+                  args: [parseEther('0.1')],
+                })
+              }
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Create Your Game
+            </button>
             {/* Bouton "Delete my room" qui s'affiche si l'utilisateur a déjà créé une salle */}
             {rooms.some(room => room.address === address) && (
               <button
                 onClick={handleDeleteRoom}
-                style={{ textDecoration: 'underline' }}
+                className={'bg-red-800 text-red-100 px-4 py-2 rounded-md shadow-md duration-150'}
               >
                 Delete my room
               </button>
