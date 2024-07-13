@@ -10,7 +10,7 @@ export const couleurs = [
     '#8F33FF',
   ];
   export const playerColors = {
-    player1: '#FFFFFF', // Gold for Player 1
-    player2: '#111111', // GreenYellow for Player 2
+    player1: 'blue', // Gold for Player 1
+    player2: 'red', // GreenYellow for Player 2
   };
   

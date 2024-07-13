@@ -11,4 +11,3 @@ const HandCard = ({ card, onClick, isSelected }) => (
 );
 
 export default HandCard;
-
