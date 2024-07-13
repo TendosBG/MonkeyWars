@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { game } from './scriptGame.js';
 import './App.css';
+import Matrix from './matrice.jsx'; // Importer le composant Matrix
 
 const couleurs = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#FF33A6', '#FF8F33', '#33FFF3', '#8F33FF'];
 
@@ -56,7 +58,7 @@ function App() {
     });
 
     setDeck((prevDeck) => prevDeck.slice(0, -1)); // Remove the last card from the deck
-
+    game();
     setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1)); // Switch turns
   };
 
@@ -98,9 +100,10 @@ function App() {
           ))}
         </div>
       </div>
+      <Matrix /> {/* Inclure le composant Matrix */}
     </div>
   );
 }
 
 export default App;
-  
+
