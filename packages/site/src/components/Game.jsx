@@ -2,12 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useWallet } from '../context/WalletContext';
 import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../firebase/firebase';
+import { usePrepareContractWrite, useContractWrite, useAccount } from 'wagmi';
+import { ethers } from 'ethers';
+import GameContractABI from "../../../blockchain/artifacts/contracts/GameContract.sol/GameContract.json";
+
+const CONTRACT_ADDRESS = "0xA85679DdCA323C2Abf1A6bed7209A81c29e03661";
 
 const Game = () => {
   const { address } = useParams();
-  const { isConnected, address: playerAddress } = useWallet();
+  const { address: playerAddress, isConnected } = useAccount();
   const navigate = useNavigate();
-  const [player2Address, setPlayer2Address] = useState(null);
+  const [betAmount, setBetAmount] = useState('0.001'); // Default bet amount
+  const [roomData, setRoomData] = useState(null);
 
   useEffect(() => {
     if (!isConnected) {
@@ -17,67 +23,66 @@ const Game = () => {
 
     const roomRef = db.ref('rooms').child(address);
 
-    // Ajouter le joueur à la salle lorsque le composant est monté
-    roomRef.once('value', (snapshot) => {
-      if (!snapshot.exists()) {
-        roomRef.set({
-          address: address,
-          user1: {
-            address: playerAddress,
-            // Ajouter d'autres données utilisateur si nécessaire
-          },
-          user2: null,
-          // Ajouter d'autres données de salle si nécessaire
-        });
-      } else {
-        const roomData = snapshot.val();
-        if (!roomData.user1) {
-          roomRef.update({
-            user1: {
-              address: playerAddress,
-              // Ajouter d'autres données utilisateur si nécessaire
-            },
-          });
-        } else if (!roomData.user2 && roomData.user1.address !== playerAddress) {
-          roomRef.update({
-            user2: {
-              address: playerAddress,
-              // Ajouter d'autres données utilisateur si nécessaire
-            },
-          });
-        } else if (roomData.user2 && roomData.user2.address !== playerAddress) {
-          setPlayer2Address(roomData.user2.address);
-        }
-      }
+    roomRef.on('value', (snapshot) => {
+      const data = snapshot.val();
+      setRoomData(data);
     });
 
-    // Supprimer le joueur de la salle lorsque le composant est démonté (unmount)
     return () => {
-      if (isConnected && playerAddress) {
-        roomRef.once('value', (snapshot) => {
-          const roomData = snapshot.val();
-          if (roomData) {
-            if (roomData.user1 && roomData.user1.address === playerAddress) {
-              roomRef.update({
-                user1: null,
-              });
-            } else if (roomData.user2 && roomData.user2.address === playerAddress) {
-              roomRef.update({
-                user2: null,
-              });
-            }
-          }
-        });
-      }
+      roomRef.off();
     };
-  }, [isConnected, address, navigate, playerAddress]);
+  }, [isConnected, address, navigate]);
+
+  const { config: createGameConfig } = usePrepareContractWrite({
+    address: CONTRACT_ADDRESS,
+    abi: GameContractABI.abi,
+    functionName: "createGame",
+    args: [ethers.utils.parseEther(betAmount)],
+  });
+
+  const { write: createGame } = useContractWrite(createGameConfig);
+
+  const { config: joinGameConfig } = usePrepareContractWrite({
+    address: CONTRACT_ADDRESS,
+    abi: GameContractABI.abi,
+    functionName: "joinGame",
+  });
+
+  const { write: joinGame } = useContractWrite(joinGameConfig);
+
+  const handleCreateGame = () => {
+    createGame();
+  };
+
+  const handleJoinGame = () => {
+    joinGame();
+  };
+
+  const getRoomPlayers = () => {
+    if (roomData) {
+      let players = [];
+      if (roomData.user1) players.push(roomData.user1.address);
+      if (roomData.user2) players.push(roomData.user2.address);
+      return players.join(', ');
+    }
+    return '';
+  };
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="text-2xl font-bold">Game View</div>
+      <div className="text-2xl font-bold">Game View - Players: {roomData ? `${roomData.user1 && roomData.user2 ? 2 : 1}/2` : '0/2'}</div>
       {isConnected ? (
         <div>
-          <div> Game of {address}</div>
+          <div>Game of: {address}</div>
+          <div>Players: {getRoomPlayers()}</div>
+          <input
+            type="number"
+            value={betAmount}
+            onChange={(e) => setBetAmount(e.target.value)}
+            placeholder="Bet Amount in ETH"
+          />
+          <button onClick={handleCreateGame}>Create Game</button>
+          <button onClick={handleJoinGame}>Join Game</button>
         </div>
       ) : (
         <div>Please connect your wallet</div>
