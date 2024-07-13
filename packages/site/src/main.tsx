@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import App from "./components/game/gameComponents/App.jsx";
 import "./index.css";
 import { WagmiProvider, deserialize, serialize } from "wagmi";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
