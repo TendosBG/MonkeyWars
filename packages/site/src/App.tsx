@@ -28,7 +28,7 @@ export default function Home() {
         </div>
         <ConnectWalletButton />
       </div>
-
+      
       <div className="flex mt-52 flex-col items-center">
         <span className="text-3xl font-bold">Web3 Starter template</span>
         {isConnected && (
