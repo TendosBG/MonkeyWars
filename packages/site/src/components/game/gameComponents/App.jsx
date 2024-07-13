@@ -61,7 +61,7 @@ function App() {
     setDeck(newDeck);
     setSelectedCardIndex(null);
     setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1));
-    
+    game();
   };
 
   return (
