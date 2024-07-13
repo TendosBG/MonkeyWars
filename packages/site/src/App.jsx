@@ -1,47 +1,30 @@
-import React, { useEffect, useState } from "react";
-
-import { ConnectWalletButton } from "@components/ConnectWalletButton";
-import { client } from "@common/utils/client";
+import React from "react";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { WalletProvider } from "./components/WalletContext";
+import { ConnectWalletButton } from "./components/ConnectButton";
+import Home from './components/Home';
+import Game from './components/Game';
 
 const App = () => {
-    const { isConnected, address } = useAccount();
-    const [blockNumber, setBlockNumber] = useState<bigint | null>(null);
-
-    useEffect(() => {
-        client.getBlockNumber().then((block) => {
-        setBlockNumber(block);
-        });
-    }, []);
-
-    return (
+  return (
+    <WalletProvider>
+      <BrowserRouter>
         <main className="relative flex flex-col items-center gap-20 min-h-screen mx-auto md:p-24">
-        <div className="flex justify-center pt-10 md:pt-0 z-10 max-w-5xl w-full lg:items-center lg:justify-between font-mono text-sm lg:flex">
+          <div className="flex justify-center pt-10 md:pt-0 z-10 max-w-5xl w-full lg:items-center lg:justify-between font-mono text-sm lg:flex">
             <div className="absolute bottom-0 left-0 flex w-full items-end justify-center lg:static lg:h-auto lg:w-auto lg:bg-none">
-            <a
-                className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                By RAD Team
-            </a>
+              <h1 className="text-4xl font-bold">MONKEY WARS</h1>
             </div>
             <ConnectWalletButton />
-        </div>
+          </div>
 
-        {isConnected ? (
-            <div className="flex flex-col items-center gap-4">
-            <div className="text-2xl font-bold">Connected</div>
-            <a href="/game/">{address}</a>
-            </div>
-        ) : (
-            <div className="flex flex-col items-center gap-4">
-            <div className="text-2xl font-bold">Not Connected</div>
-            </div>
-        )}
-        
-    </main>
-);
-}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/game/:address" element={<Game />} />
+          </Routes>
+        </main>
+      </BrowserRouter>
+    </WalletProvider>
+  );
+};
 
 export default App;
