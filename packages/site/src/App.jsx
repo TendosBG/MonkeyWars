@@ -14,7 +14,7 @@ const App = () => {
           <main className="relative flex flex-col items-center gap-20 min-h-screen mx-auto md:p-24">
             <div className="flex justify-center pt-10 md:pt-0 z-10 max-w-5xl w-full lg:items-center lg:justify-between font-mono text-sm lg:flex">
               <div className="absolute bottom-0 left-0 flex w-full items-end justify-center lg:static lg:h-auto lg:w-auto lg:bg-none">
-                <Link to="/"><h1 className="text-4xl font-bold">MONKEY WARS</h1></Link>
+                <Link to="/"><h1 className="text-4xl font-bold --bs-danger-text-emphasis">TITRE DU JEU</h1></Link>
               </div>
               <ConnectWalletButton />
             </div>
