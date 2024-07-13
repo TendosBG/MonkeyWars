@@ -1,0 +1,44 @@
+.App {
+  text-align: center;
+}
+
+.players {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.player {
+  width: 200px;
+}
+
+.hand {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: repeat(4, 100px);
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.card {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
