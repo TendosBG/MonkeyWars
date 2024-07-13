@@ -36,6 +36,7 @@ function App() {
   const [player1Cards, setPlayer1Cards] = useState([]);
   const [player2Cards, setPlayer2Cards] = useState([]);
   const [currentPlayer, setCurrentPlayer] = useState(1);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   useEffect(() => {
     const initialDeck = generateCards();
@@ -58,8 +59,8 @@ function App() {
     });
 
     setDeck((prevDeck) => prevDeck.slice(0, -1)); // Remove the last card from the deck
-    game();
     setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1)); // Switch turns
+    game();
   };
 
   return (
@@ -79,6 +80,8 @@ function App() {
             ))}
           </div>
         </div>
+        <Matrix /> {/* Inclure le composant Matrix */}
+        
         <div className="player">
           <h2>Player 2</h2>
           <div className="hand">
@@ -92,7 +95,7 @@ function App() {
           </div>
         </div>
       </div>
-      <div className="deck">
+      {/* <div className="deck"> 
         <h2>Remaining Deck</h2>
         <div className="grid">
           {deck.map((card) => (
@@ -100,7 +103,7 @@ function App() {
           ))}
         </div>
       </div>
-      <Matrix /> {/* Inclure le composant Matrix */}
+      <Matrix /> */}
     </div>
   );
 }
