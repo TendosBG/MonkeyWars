@@ -44,23 +44,21 @@ export function ConnectWalletButton() {
         </div>
       ) : (
         <div className="flex flex-col items-center">
-          {connectors.map((connector) => (
-            <button
-              key={connector.id}
-              onClick={() => connect({ connector, chainId })}
-              type="button"
-              className={`bg-gray-800 text-white px-4 py-2 rounded-md mt-2 ${
-                isConnecting
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-opacity-80"
-              }`}
-              disabled={isConnecting}
-            >
-              {isConnecting
-                ? "Connecting..."
-                : `Connect with ${connector.name}`}
-            </button>
-          ))}
+          <button
+            key={connectors[0].id}
+            onClick={() => connect({ connector: connectors[0], chainId })}
+            type="button"
+            className={`bg-gray-800 text-white px-4 py-2 rounded-md mt-2 ${
+              isConnecting
+                ? "opacity-50 cursor-not-allowed"
+                : "hover:bg-opacity-80"
+            }`}
+            disabled={isConnecting}
+          >
+            {isConnecting
+              ? "Connecting..."
+              : `Connect with ${connectors[0].name}`}
+          </button>
         </div>
       )}
       {(error || connectError) && (

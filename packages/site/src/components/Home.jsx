@@ -1,14 +1,23 @@
 import React from 'react';
-import { useWallet } from '../context/WalletContext';
-import { useRoom } from '../context/RoomContext';
+import { useWallet } from '../context/WalletContext.jsx';
+import { useRoom } from '../context/RoomContext.jsx';
 import { Link } from 'react-router-dom';
+import { useWriteContract } from 'wagmi';
+import { MonkeyWarsABI } from '../abi.ts';
 
-const Home = () => {
+const Home = () => {  
+
   const { isConnected, address } = useWallet();
   const { rooms, deleteRoom } = useRoom(); // Assurez-vous d'importer la fonction de suppression de la salle depuis votre contexte RoomContext
-
+  const { writeContract, error} = useWriteContract()
+  console.log(error)
   // Fonction pour supprimer la salle actuelle de l'utilisateur
   const handleDeleteRoom = () => {
+    writeContract({
+      address: '0xE855bEa1B0289420ceE99bc9a8524c3744a4710b',
+      abi: MonkeyWarsABI,
+      functionName: 'deleteGame',
+    });
     // Supprimer la salle en utilisant la fonction deleteRoom avec l'adresse actuelle de l'utilisateur
     deleteRoom(address);
   };
@@ -17,14 +26,16 @@ const Home = () => {
     <div className="flex flex-col items-center gap-4">
       {isConnected ? (
         <>
-          <div className="text-2xl font-bold">Connected</div>
+          
           <div className="flex gap-4 items-center">
-            <Link to={`/game/${address}`} style={{ textDecoration: 'underline' }}>Create my room</Link>
+            <Link to={`/game/${address}`} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              Create Your Game
+            </Link>
             {/* Bouton "Delete my room" qui s'affiche si l'utilisateur a déjà créé une salle */}
             {rooms.some(room => room.address === address) && (
               <button
                 onClick={handleDeleteRoom}
-                style={{ textDecoration: 'underline' }}
+                className={'bg-red-800 text-red-100 px-4 py-2 rounded-md shadow-md duration-150'}
               >
                 Delete my room
               </button>
@@ -42,7 +53,15 @@ const Home = () => {
 
                 return (
                   <li key={index} className="flex items-center gap-2">
-                    <Link to={`/game/${room.address}`}>{room.address}</Link>
+                    <Link to={`/game/${room.address}`} onClick={
+                      ()=>{
+                        writeContract({
+                          address: '0xE855bEa1B0289420ceE99bc9a8524c3744a4710b',
+                          abi: MonkeyWarsABI,
+                          functionName: 'joinGame',
+                        });
+                      }
+                    }>{room.address}</Link>
                     <span>{`${numPlayers}/2`}</span>
                   </li>
                 );
