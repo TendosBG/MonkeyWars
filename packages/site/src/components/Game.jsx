@@ -3,17 +3,18 @@ import { useWallet } from '../context/WalletContext';
 import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../firebase/firebase';
 import { MonkeyWarsABI } from '../abi.ts';
-import {  useWriteContract } from 'wagmi';
+import { useWriteContract } from 'wagmi';
+import App from './game/gameComponents/App.jsx';
 
 const Game = () => {
   const { address } = useParams();
   const { isConnected, address: playerAddress } = useWallet();
   const navigate = useNavigate();
   const [player2Address, setPlayer2Address] = useState(null);
-  const { writeContract, error} = useWriteContract()
-console.log(error)
+  const [gameStarted, setGameStarted] = useState(false);
+  const { writeContract, error } = useWriteContract();
 
-    
+  console.log(error);
 
   useEffect(() => {
     if (!isConnected) {
@@ -51,6 +52,7 @@ console.log(error)
               // Ajouter d'autres données utilisateur si nécessaire
             },
           });
+          setPlayer2Address(playerAddress);
         } else if (roomData.user2 && roomData.user2.address !== playerAddress) {
           setPlayer2Address(roomData.user2.address);
         }
@@ -82,13 +84,21 @@ console.log(error)
     if (!player2Address) {
       console.log(player2Address);
       writeContract({
-        address: '0xE855bEa1B0289420ceE99bc9a8524c3744a4710b',
+        address: '0x8C3E7423302b461169cA1bb79151C21055733D3F',
         abi: MonkeyWarsABI,
         functionName: 'createGame',
         args: [1000],
       });
     }
-  }, []);
+  }, [player2Address, writeContract]);
+
+  const handleStartGame = () => {
+    setGameStarted(true);
+  };
+
+  if (gameStarted) {
+    return <App />;
+  }
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -96,17 +106,14 @@ console.log(error)
       {isConnected ? (
         <div>
           <div> Game of {address}</div>
+          
           {player2Address ? (
-            <div onClick={
-              () => {
-                writeContract({
-                  address: '0xE855bEa1B0289420ceE99bc9a8524c3744a4710b',
-                  abi: MonkeyWarsABI,
-                  functionName: 'startGame',
-                });
-              }
-            }
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-center">Start the game</div>
+            <div
+              onClick={handleStartGame}
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-center"
+            >
+              Start the game
+            </div>
           ) : (
             <div>Waiting for another player to join</div>
           )}
