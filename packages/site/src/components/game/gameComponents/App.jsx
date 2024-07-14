@@ -86,7 +86,7 @@ function App() {
       // Here, update the background color of the clicked cell
       const cellElement = document.querySelector(`.row-${x}.col-${y}`);
       if (cellElement) {
-        cellElement.style.backgroundColor = currentPlayer === 1 ? '#00AEEF' : '#0089BC';
+        cellElement.style.backgroundColor = currentPlayer === 1 ? '#00AEEF' : '#0033BC';
       }
   
       checkAndCaptureTerritory(newMatrix, x, y, selectedCard.couleur);
