@@ -4,6 +4,10 @@ import Matrix from './Matrix.jsx';
 import PlayerHand from './PlayerHand.jsx';
 import { generateCards, distributeCards } from './cardUtils.js';
 import { playerColors } from './constant.js';
+import { useWriteContract } from 'wagmi';
+import { MonkeyWarsABI } from '../../../abi.ts';
+import { useRoom } from '../../../context/RoomContext.jsx';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
   const [deck, setDeck] = useState([]);
@@ -19,6 +23,9 @@ function App() {
   const [player1Score, setPlayer1Score] = useState(0);
   const [player2Score, setPlayer2Score] = useState(0);
   const maxMovesPerPlayer = 8; // Nombre maximum de coups par joueur
+  const { writeContract } = useWriteContract();
+  const { deleteRoom } = useRoom();
+  const navigate = useNavigate();
 
   // Multiplicateurs
   const centerColumnMultiplier = 3;
@@ -161,6 +168,18 @@ function App() {
     } else {
       setWinner('draw');
     }
+    writeContract({
+      address: '0x8C3E7423302b461169cA1bb79151C21055733D3F',
+      abi: MonkeyWarsABI,
+      functionName: 'endGame',
+      args: ["0xc9F43FE06f6cE883a406Add8Dca216E642e23cD3"],
+    });
+
+    deleteRoom("0xc9F43FE06f6cE883a406Add8Dca216E642e23cD3");
+    deleteRoom("0xe80a5ff2da2ae9b6524E50c3CCF9D538bcB91bc9");
+
+    navigate('/');
+    alert('You have won the game!');
   };
 
   return (

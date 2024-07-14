@@ -56,7 +56,7 @@ const Home = () => {
                     <Link to={`/game/${room.address}`} onClick={
                       ()=>{
                         writeContract({
-                          address: '0xE855bEa1B0289420ceE99bc9a8524c3744a4710b',
+                          address: '0x8C3E7423302b461169cA1bb79151C21055733D3F',
                           abi: MonkeyWarsABI,
                           functionName: 'joinGame',
                         });
