@@ -70,7 +70,7 @@ Decentralized Matchmaking: The use of smart contracts can create a transparent a
 
 ### Installation
 
-1. Clone the repository: `git clone [repository URL]`
+1. Clone the repository: `git clone https://github.com/TendosBG/SkyCG.git`
 2. Install dependencies: `npm install` (or `yarn`)
 
 ### Running the Game
