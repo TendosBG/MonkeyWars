@@ -89,7 +89,7 @@ Smart contracts are used to sign a game between the two players and to acknowled
 
 ### Contract Addresses
 
-- Contract address : 0xE855bEa1B0289420ceE99bc9a8524c3744a4710b
+- Contract address : 0x8C3E7423302b461169cA1bb79151C21055733D3F
 
 ### Contract Functions
 
