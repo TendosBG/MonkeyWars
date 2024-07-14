@@ -57,7 +57,7 @@ Decentralized Matchmaking: The use of smart contracts can create a transparent a
 
 ## Technologies Used
 
-- **Frontend:** React, JavaScript, HTML, CSS
+- **Frontend:** React, TypeScript, JavaScript, HTML, CSS
 - **Smart Contracts:** Solidity (deployed on Linea testnet)
 - **Blockchain Interaction:** Wagmi, MetaMask SDK, remix
 
