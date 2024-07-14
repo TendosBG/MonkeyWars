@@ -1,9 +1,8 @@
 import React from 'react';
 
-const Card = ({ card, onClick, isSelected }) => (
+const Card = ({ card, onClick, isSelected, className }) => (
   <div
-    className={`card ${isSelected ? 'selected' : ''}`}
-    style={{ backgroundColor: card ? card.couleur : 'lightgray' }}
+    className={`card ${isSelected ? 'selected' : ''} ${className}`}
     onClick={onClick}
   >
     {card ? card.id : ''}
@@ -11,4 +10,3 @@ const Card = ({ card, onClick, isSelected }) => (
 );
 
 export default Card;
-

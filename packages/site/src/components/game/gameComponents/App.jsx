@@ -46,22 +46,22 @@ function App() {
 
   const handleMatrixCardClick = (x, y) => {
     if (selectedCardIndex === null || winner !== null) return;
-
+  
     const selectedCard = currentPlayer === 1 ? player1Cards[selectedCardIndex] : player2Cards[selectedCardIndex];
     const existingCard = boardMatrix[x][y];
-
-    // Condition pour remplacer la carte
+  
+    // Condition to replace the card
     if (existingCard === null || selectedCard.id > existingCard.id) {
       const newMatrix = [...boardMatrix];
       newMatrix[x][y] = selectedCard;
       setBoardMatrix(newMatrix);
-
+  
       const newDeck = [...deck];
       let newCard = newDeck.pop() || null;
       if (newCard) {
         newCard = { ...newCard, couleur: currentPlayer === 1 ? playerColors.player1 : playerColors.player2 };
       }
-
+  
       if (currentPlayer === 1) {
         setPlayer1Cards((prevCards) => {
           const updatedCards = [...prevCards];
@@ -77,17 +77,22 @@ function App() {
         });
         setPlayer2Moves(player2Moves + 1);
       }
-
+  
       setDeck(newDeck);
       setSelectedCardIndex(null);
       setCurrentPlayer((prevPlayer) => (prevPlayer === 1 ? 2 : 1));
       setTotalMoves(totalMoves + 1);
-
+  
+      // Here, update the background color of the clicked cell
+      const cellElement = document.querySelector(`.row-${x}.col-${y}`);
+      if (cellElement) {
+        cellElement.style.backgroundColor = currentPlayer === 1 ? '#00AEEF' : '#0089BC';
+      }
+  
       checkAndCaptureTerritory(newMatrix, x, y, selectedCard.couleur);
       checkGameEnd(newMatrix);
     }
   };
-
   const checkAndCaptureTerritory = (matrix, x, y, color) => {
     const directions = [
       [-1, -1], [-1, 1], [1, -1], [1, 1]
